@@ -73,3 +73,20 @@ def delete_restaurant(id):
     db.session.commit()
 
     return make_response('', 204)
+
+# Route to get all pizzas
+@app.route('/pizzas', methods=['GET'])
+def get_pizzas():
+    pizzas = Pizza.query.all()
+    pizza_list = []
+
+    for pizza in pizzas:
+        pizza_data = {
+            'id': pizza.id,
+            'name': pizza.name,
+            'ingredients': pizza.ingredients
+        }
+
+        pizza_list.append(pizza_data)
+
+    return jsonify(pizza_list), 200
