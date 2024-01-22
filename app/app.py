@@ -26,7 +26,7 @@ def get_restaurants():
 
         restaurant_list.append(restaurant_data)
 
-    return jsonify(restaurant_list), 200    
+    return jsonify(restaurant_list), 2000  
 
 # Route to get a specific restaurant by ID
 @app.route('/restaurants/<int:id>', methods=['GET'])
