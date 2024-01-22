@@ -23,3 +23,15 @@ class Restaurant(db.Model):
             errors['name'] = 'Name must be less than 50 characters long'
 
         return errors
+
+class Pizza(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    ingredients = db.Column(db.String(255))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    restaurant_pizzas = db.relationship('RestaurantPizza', backref='pizza')
+
+    def __repr__(self):
+        return f'<Pizza {self.id}: {self.name}'
