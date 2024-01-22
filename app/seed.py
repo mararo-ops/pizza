@@ -68,3 +68,15 @@ with app.app_context():
 
     db.session.add_all(pizzas)
     db.session.commit()
+
+# Seeding restaurant pizzas
+    restaurant_pizzas = []
+    for _ in range(20):
+        price = randint(1, 30)
+        pizza = choice(pizzas)
+        restaurant = choice(restaurants)
+        random_pizza = RestaurantPizza(price=price, pizza=pizza, restaurant=restaurant)
+        restaurant_pizzas.append(random_pizza)
+
+    db.session.add_all(restaurant_pizzas)
+    db.session.commit()
