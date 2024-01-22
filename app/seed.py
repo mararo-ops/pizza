@@ -57,3 +57,14 @@ with app.app_context():
         'Dough, BBQ Sauce, Ground Beef, Bacon, Red Onions, Pickles, Cheddar Cheese',
         'Dough, Creamy Garlic Sauce, Spinach, Artichoke Hearts, Mozzarella Cheese'
     ]
+
+     # Selecting unique pizza names
+    unique_pizza_names = list(set(pizza_names))
+
+    for name in unique_pizza_names:
+        ingredients = choice(pizza_ingredients)  # Randomly select ingredients
+        pizza = Pizza(name=name, ingredients=ingredients)
+        pizzas.append(pizza)
+
+    db.session.add_all(pizzas)
+    db.session.commit()
