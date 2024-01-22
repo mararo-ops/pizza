@@ -32,3 +32,28 @@ with app.app_context():
         'Plant-Based Bliss', 'Garlic White Pizza', 'Taco Fiesta', 'Greek Mediterranean', 'Sweet and Spicy BBQ',
         'Bacon & Mushroom Deluxe', 'Spinach and Artichoke'
     ]
+
+    # List of pizza ingredients
+    pizza_ingredients = [
+        'Dough, Tomato Sauce, Mozzarella Cheese',
+        'Dough, Tomato Sauce, Pepperoni, Mozzarella Cheese',
+        'Dough, Tomato Sauce, Ham, Pineapple, Mozzarella Cheese',
+        'Dough, Tomato Sauce, Mushrooms, Bell Peppers, Onions, Black Olives, Mozzarella Cheese',
+        'Dough, Tomato Sauce, Pepperoni, Sausage, Mushrooms, Bell Peppers, Onions, Mozzarella Cheese',
+        'Dough, Tomato Sauce, Mushrooms, Mozzarella Cheese',
+        'Dough, BBQ Sauce, Grilled Chicken, Red Onions, Cilantro, Mozzarella Cheese',
+        'Dough, Tomato Sauce, Sausage, Pepperoni, Bacon, Ground Beef, Mozzarella Cheese',
+        'Dough, Tomato Sauce, Shrimp, Calamari, Clams, Mozzarella Cheese',
+        'Dough, Pesto Sauce, Cherry Tomatoes, Fresh Basil, Mozzarella Cheese',
+        'Dough, Buffalo Sauce, Grilled Chicken, Red Onions, Ranch Drizzle, Mozzarella Cheese',
+        'Dough, Tomato Sauce, Mushrooms, Bell Peppers, Spinach, Red Onions, Black Olives, Mozzarella Cheese',
+        'Dough, Alfredo Sauce, Ricotta Cheese, Parmesan Cheese, Mozzarella Cheese',
+        'Dough, Tomato Sauce, Pepperoni, Sausage, Bacon, Ham, Mozzarella Cheese',
+        'Dough, Vegan Tomato Sauce, Vegan Cheese, Mixed Vegetables',
+        'Dough, Garlic Alfredo Sauce, Spinach, Artichoke Hearts, Mozzarella Cheese',
+        'Dough, Taco Sauce, Seasoned Ground Beef, Tomatoes, Lettuce, Cheddar Cheese, Sour Cream',
+        'Dough, Tzatziki Sauce, Gyro Meat, Red Onions, Tomatoes, Feta Cheese, Kalamata Olives',
+        'Dough, BBQ Sauce, Grilled Chicken, Bacon, Red Onions, Pineapple, Mozzarella Cheese',
+        'Dough, BBQ Sauce, Ground Beef, Bacon, Red Onions, Pickles, Cheddar Cheese',
+        'Dough, Creamy Garlic Sauce, Spinach, Artichoke Hearts, Mozzarella Cheese'
+    ]
