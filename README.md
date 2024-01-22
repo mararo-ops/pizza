@@ -60,7 +60,7 @@ The API provides the following routes to interact with the models:
 
 - **DELETE /restaurants/int:id**: Delete a specific restaurant by ID. Deletes the restaurant and any associated restaurant pizzas.
 
-- **GET /pizzas**: List all pizzas.
+- **GET /pizzas**: List all pizzas
 
 - **POST /restaurant_pizzas**: Create a new restaurant pizza. Associates an existing pizza with an existing restaurant and sets the price.
 
