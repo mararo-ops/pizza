@@ -90,3 +90,31 @@ def get_pizzas():
         pizza_list.append(pizza_data)
 
     return jsonify(pizza_list), 200
+
+# Route to Post a new restaurant pizza
+@app.route('/restaurant_pizzas', methods=['POST'])
+def create_restaurant_pizza():
+    data = request.get_json()
+
+   # Retrieve data from request
+    price = data.get("price")
+    pizza_id = data.get("pizza_id")
+    restaurant_id = data.get("restaurant_id")
+
+    errors = []
+
+    if price is None or pizza_id is None or restaurant_id is None:
+        errors.append("Price, pizza_id, and restaurant_id are required fields")
+
+    # Check if the specified Pizza and Restaurant exist
+    pizza = Pizza.query.get(pizza_id)
+    restaurant = Restaurant.query.get(restaurant_id)
+
+    if pizza is None:
+        errors.append("Pizza not found")
+
+    if restaurant is None:
+        errors.append("Restaurant not found")
+
+    if errors:
+        return jsonify({"errors": errors}), 400
