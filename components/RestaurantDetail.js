@@ -6,8 +6,17 @@ const RestaurantDetail = ({ match }) => {
   const [restaurant, setRestaurant] = useState(null);
 
   useEffect(() => {
-    // Fetch data from /restaurants/:id API endpoint using restaurantId
-    // Update the state with the fetched restaurant details
+    fetch(`https://pizza-e63i.onrender.com/${id}`).then((r) => {
+        if (r.ok) {
+          r.json().then((hero) =>
+            setHero({ data: hero, error: null, status: "resolved" })
+          );
+        } else {
+          r.json().then((err) =>
+            setHero({ data: null, error: err.error, status: "rejected" })
+          );
+        }
+      });
   }, [restaurantId]);
 
   return (

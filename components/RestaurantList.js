@@ -5,15 +5,23 @@ const RestaurantList = () => {
   const [restaurants, setRestaurants] = useState([]);
 
   useEffect(() => {
-    // Fetch data from /restaurants API endpoint
-    // Update the state with the fetched restaurants
+    fetch(`https://pizza-e63i.onrender.com/${id}`).then((r) => {
+        if (r.ok) {
+          r.json().then((hero) =>
+            setHero({ data: hero, error: null, status: "resolved" })
+          );
+        } else {
+          r.json().then((err) =>
+            setHero({ data: null, error: err.error, status: "rejected" })
+          );
+        }
+      });
   }, []);
 
   return (
     <div>
       <h2>Restaurant List</h2>
       <ul>
-        {/* Map through the restaurants and display each one */}
         {restaurants.map((restaurant) => (
           <li key={restaurant.id}>
             {restaurant.name} - {restaurant.address}

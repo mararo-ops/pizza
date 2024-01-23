@@ -5,9 +5,19 @@ const PizzaList = () => {
   const [pizzas, setPizzas] = useState([]);
 
   useEffect(() => {
-    // Fetch data from /pizzas API endpoint
-    // Update the state with the fetched pizzas
+    fetch(`https://pizza-e63i.onrender.com/${id}`).then((r) => {
+        if (r.ok) {
+          r.json().then((hero) =>
+            setHero({ data: hero, error: null, status: "resolved" })
+          );
+        } else {
+          r.json().then((err) =>
+            setHero({ data: null, error: err.error, status: "rejected" })
+          );
+        }
+      });
   }, []);
+
 
   return (
     <div>
