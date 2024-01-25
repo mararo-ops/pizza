@@ -1,60 +1,70 @@
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+from sqlalchemy import MetaData,UniqueConstraint,CheckConstraint
+from sqlalchemy_serializer import SerializerMixin
+from sqlalchemy.orm import validates
 
-db = SQLAlchemy()
+metadata = MetaData(naming_convention={
+    "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
+})
 
-class Restaurant(db.Model):
+db = SQLAlchemy(metadata=metadata)
+
+class Restaurant(db.Model, SerializerMixin):
+    __tablename__ = 'restaurants'
+
+    serialize_rules = ('-restaurant_pizzas.restaurant',)
+
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), unique=True, nullable=False)
-    address = db.Column(db.String(255))
+    name = db.Column(db.String)
+    address = db.Column(db.String)
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
-    restaurant_pizzas = db.relationship('RestaurantPizza', backref='restaurant')
+    restaurant_pizzas = db.relationship('RestaurantPizza', backref='restaurant', lazy='select')
+
+    __table_args__ = (
+        UniqueConstraint('name',name="unique_name_constraint"),
+        CheckConstraint('LENGTH(name) <= 50',name="check_name_constraint")
+    )
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'address': self.address,
+            'pizzas': [pizza.pizza.serialize() for pizza in self.restaurant_pizzas]
+        }
+
+class RestaurantPizza(db.Model, SerializerMixin):
+    __tablename__ = 'restaurant_pizzas'
+    serialize_rules = ('-restaurant.restaurant_pizzas',)
     
-    def __repr__(self):
-        return f'<Restaurant {self.id}: {self.name}'
-
-    def validate(self):
-        errors = {}
-
-        if not self.name:
-            errors['name'] = 'Name is required'
-
-        if len(self.name) > 50:
-            errors['name'] = 'Name must be less than 50 characters long'
-
-        return errors
-
-class Pizza(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
-    ingredients = db.Column(db.String(255))
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-
-    restaurant_pizzas = db.relationship('RestaurantPizza', backref='pizza')
-
-    def __repr__(self):
-        return f'<Pizza {self.id}: {self.name}'
-
-class RestaurantPizza(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    pizza_id = db.Column(db.Integer, db.ForeignKey('pizzas.id'))
+    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.id'))
     price = db.Column(db.Integer)
-    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurant.id'), nullable=False)
-    pizza_id = db.Column(db.Integer, db.ForeignKey('pizza.id'), nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, onupdate=db.func.now())
+
+    @validates('price')
+    def validate_price(self, key, price):
+        if not (1 < price < 30):
+            raise ValueError("price must be between 1 and 30")a
+        return price
 
 
-    def __repr__(self):
-        return f'<RestaurantPizza {self.id}: Price: {self.price}>'
+class PizzaModel(db.Model, SerializerMixin):
+    __tablename__ = 'pizzas'
+    
+    serialize_rules = ('-restaurant_pizzas.pizza',)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    ingredients = db.Column(db.String)
 
-    def validate(self):
-        errors = {}
+    restaurant_pizzas = db.relationship('RestaurantPizza', backref='pizza', lazy='select')
 
-        if not self.price:
-            errors['price'] = 'Price is required'
-
-        if self.price < 1 or self.price > 30:
-            errors['price'] = 'Price must be between 1 and 30'
-
-        return errors
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'ingredients': self.ingredients
+        }
