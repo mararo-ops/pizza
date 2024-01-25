@@ -1,5 +1,4 @@
 
-  "name": "birdsy-client",
   "version": "0.1.0",
   "private": true,
   "proxy": "http://127.0.0.1:5555",
@@ -33,4 +32,4 @@
       "last 1 safari version"
     ]
   }
-}
+
