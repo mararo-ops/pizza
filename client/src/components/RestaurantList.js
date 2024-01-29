@@ -1,30 +1,53 @@
-// RestaurantList.js
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from "react";
 
-const RestaurantList = () => {
-  const [restaurants, setRestaurants] = useState([]);
+const Restaurants = () => {
+  const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch(`https://pizza-e63i.onrender.com/${id}`).then((r) => {
-        if (r.ok) {
-          r.json().then((hero) =>
-            setHero({ data: hero, error: null, status: "resolved" })
-          );
-        } else {
-          r.json().then((err) =>
-            setHero({ data: null, error: err.error, status: "rejected" })
-          );
-        }
-      });
+    fetchData();
   }, []);
 
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        "https://pizza-restaurant-domain.onrender.com/restaurants"
+      );
+      const result = await response.json();
+      setData(result);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(
+        `https://pizza-restaurant-domain.onrender.com/restaurants/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (response.status === 204) {
+        setData((prevData) =>
+          prevData.filter((restaurant) => restaurant.id !== id)
+        );
+      } else {
+        console.error("Error deleting data. Status:", response.status);
+      }
+    } catch (error) {
+      console.error("Error deleting data:", error);
+    }
+  };
+
   return (
-    <div>
-      <h2>Restaurant List</h2>
+    <div className=" restaurants " >
+      <h2>Our Restaurants</h2>
       <ul>
-        {restaurants.map((restaurant) => (
+        {data.map((restaurant) => (
           <li key={restaurant.id}>
-            {restaurant.name} - {restaurant.address}
+            <strong>{restaurant.name}</strong>: {restaurant.address}
+            <button onClick={() => handleDelete(restaurant.id)}>Delete</button>
           </li>
         ))}
       </ul>
@@ -32,4 +55,4 @@ const RestaurantList = () => {
   );
 };
 
-export default RestaurantList;
+export default Restaurants;
