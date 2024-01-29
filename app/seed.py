@@ -1,47 +1,94 @@
-from flask import Flask
-from faker import Faker
-from models import db, Restaurant, PizzaModel,RestaurantPizza
+from models import Pizza, Restaurant, RestaurantPizza
+from app import db, app
 
-from app import app
+pizzas = [
+    {
+        "name": "Margherita", 
+        "ingredients": "Dough, Tomato Sauce, Cheese"
+    },
+    {
+        "name": "Pepperoni", 
+        "ingredients": "Dough, Tomato Sauce, Cheese, Pepperoni"
+    },
+    {
+        "name": "Vegetarian", 
+        "ingredients": "Dough, Tomato Sauce, Cheese, Mushrooms, Bell Peppers, Onions"
+    },
+    {
+        "name": "Hawaiian", 
+        "ingredients": "Dough, Tomato Sauce, Cheese, Ham, Pineapple"
+    },
+    {
+        "name": "Meat Lovers", 
+        "ingredients": "Dough, Tomato Sauce, Cheese, Pepperoni, Sausage, Bacon"
+    },
+    {
+        "name": "BBQ Chicken", 
+        "ingredients": "Dough, BBQ Sauce, Cheese, Chicken, Red Onion, Cilantro"
+    }
+]
+
+restaurants = [
+    {
+        "name": "Italiano Delight",
+        "address": "123 Main St, City, Country"
+    },
+    {
+        "name": "Pasta Paradise",
+        "address": "456 Oak St, Town, Country"
+    },
+    {
+        "name": "Mamma Mia Pizzeria",
+        "address": "789 Pine St, Village, Country"
+    },
+    {
+        "name": "Pizza Palace",
+        "address": "101 Elm St, Hamlet, Country"
+    },
+    {
+        "name": "Savory Slices",
+        "address": "202 Maple St, Suburb, Country"
+    },
+    {
+        "name": "Rustic Retreat",
+        "address": "303 Cedar St, Countryside, Country"
+    },
+    {
+        "name": "Mozzarella Haven",
+        "address": "404 Birch St, Rural, Country"
+    }
+]
+
+pizzaRestaurants = [
+    {
+        "price": 10,
+        "pizza_id": 1,
+        "restaurant_id": 1
+    },
+    {
+        "price": 12,
+        "pizza_id": 2,
+        "restaurant_id": 2
+    },
+    {
+        "price": 15,
+        "pizza_id": 3,
+        "restaurant_id": 3
+    },
+    {
+        "price": 14,
+        "pizza_id": 4,
+        "restaurant_id": 4
+    },
+]
 
 with app.app_context():
-    fake = Faker()
+ 
+    db.session.add_all([Pizza(**pizza) for pizza in pizzas])
+    db.session.commit()
 
-   
-    def create_fake_restaurant():
-        restaurant = Restaurant(
-            name=fake.unique.first_name(),  # Generates a unique restaurant name
-            address=fake.address(),
-        )
-        db.session.add(restaurant)
+    db.session.add_all([Restaurant(**restaurant) for restaurant in restaurants])
+    db.session.commit()
 
-   
-    def create_fake_pizza():
-        pizza = PizzaModel(
-            name=fake.unique.first_name(),
-            ingredients = fake.text(),
-        )
-        db.session.add(pizza)
-
-    def create_fake_restaurant_pizza():
-        restaurant_pizza = RestaurantPizza(
-            pizza_id=fake.random_int(min=1, max=20),  \
-            restaurant_id=fake.random_int(min=1, max=10),  
-            price=fake.random_int(min=1, max=30),  
-            )
-        db.session.add(restaurant_pizza)
-    
-    
-    db.create_all()
-    Faker.seed(0)  
-
-   
-    for _ in range(10):  
-        create_fake_restaurant()
-        create_fake_restaurant_pizza()
-
-   
-    for _ in range(20):  
-        create_fake_pizza()
-
+    db.session.add_all([RestaurantPizza(**rp) for rp in pizzaRestaurants])
     db.session.commit()
