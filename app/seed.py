@@ -3,7 +3,7 @@ from app import db, app
 
 pizzas = [
     {
-        "name": "Margherita", 
+        "name": "Margheritai", 
         "ingredients": "Dough, Tomato Sauce, Cheese"
     },
     {
