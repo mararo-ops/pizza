@@ -4,7 +4,9 @@ This is a Flask-based API that allows one to manage pizza restaurants and their 
 
 # frontend deployment link
 https://pizza-one-nu.vercel.app/
-
+# backend deployment link
+https://pizza-restaurant-domain.onrender.com/ 
+ 
 # Table of Contents
 1. Prerequisites
 2. Getting started
