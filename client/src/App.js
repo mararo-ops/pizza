@@ -9,6 +9,6 @@ function App() {
       <Pizzas />
     </div>
   );
-}
+
 
 export default App;
