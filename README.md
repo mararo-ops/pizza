@@ -1,6 +1,10 @@
 # Flask Code Challenge - Pizza Restaurants
 
 This is a Flask-based API that allows one to manage pizza restaurants and their associated pizzas. You can perform various operations, such as listing all restaurants, retrieving a specific restaurant and deleting restaurants, listing all pizzas, and creating restaurant pizzas.
+
+# frontend deployment link
+https://pizza-one-nu.vercel.app/
+
 # Table of Contents
 1. Prerequisites
 2. Getting started
